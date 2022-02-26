@@ -82,13 +82,13 @@ This project has only just been undertaken.  As such, only the Initial Pre Relea
 
 <ul>
 <li>
-v1.0.0
+<a target='blank' href='https://github.com/christian-kesler/CSV-to-nested-JSON/releases/tag/v1.0.0'>v1.0.0</a>
 <ul>
 <li>
-Initial Pre Release 
+<a target='blank' href='https://github.com/christian-kesler/CSV-to-nested-JSON/releases/tag/v1.0.0'>Initial Pre-release</a>
 </li>
 <li>
-<a target='blank' href='https://github.com/christian-kesler/CSV-to-nested-JSON/releases/tag/v1.0.0'>v1.0.0</a>
+This release contains two converters that only generate JSON files with nested dictionaries in a preset format; CSVtoJSON-creatures.py reads creatures.csv and generates newCreatures.json, CSVtoJSON-spells.py reads spells.csv and generates newSpells.json.
 </li>
 </ul>
 </li>
