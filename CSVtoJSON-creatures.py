@@ -1,6 +1,4 @@
 # This is a file converter program that reads a CSV file and creates a JSON file with sublibraries rather than concatenated attribute names
-import time
-import json
 import csv
 
 filename = 'creatures.csv'
@@ -9,6 +7,7 @@ filename = 'creatures.csv'
 fields = []
 rows = []
 
+print('Reading CSV file . . . ')
 # reading csv file
 with open(filename, 'r') as csvfile:
     # creating a csv reader object
@@ -20,21 +19,9 @@ with open(filename, 'r') as csvfile:
     # extracting each data row one by one
     for row in csvreader:
         rows.append(row)
- 
-    # get total number of rows
-    print("Total no. of rows: %d"%(csvreader.line_num))
- 
-# printing the field names
-print('Field names are:' + ', '.join(field for field in fields))
- 
-#  printing first 5 rows
-print('\nFirst 5 rows are:\n')
-for row in rows[:5]:
-    # parsing each column of a row
-    for col in row:
-        print("%10s"%col,end=" "),
-    print('\n')
+print('CSV file successfully read!\n')
 
+print('Writing JSON file . . . ')
 with open("newCreatures.json", 'w') as f: 
     f.write('{\n\t"entries" : [\n')
     for row in rows:
@@ -362,35 +349,4 @@ with open("newCreatures.json", 'w') as f:
 
     f.write('\t]\n}')
 
-
-
-# # Opening JSON file
-# f = open('D:/_workspaces/HTML/KnowOnesWebsiteOfEverything/caped-crusaders/spells.json')
- 
-# # returns JSON object as a dictionary
-# data = json.load(f)
- 
-
-# # Iterating through the json list
-# for i in data['entries']:
-#     print(i)
-#     print('\n\n\n')
-
-# with open("myfile.txt", 'w') as f: 
-#     for key, value in data.items(): 
-#         f.write('%s:%s\n' % (key, value))
-#         f.write('\n\n\n')
-
-# # Closing file
-# f.close()
-
-
-# some sample JSON:
-x =  '{ "name":"John", "age":30, "city":"New York"}'
-# parse x:
-y = json.loads(x)
-# the result is a Python dictionary:
-print(y["age"])
-
-# Sample print
-print ('Testing 123')
+print('JSON file successfully written!')
