@@ -28,11 +28,11 @@ with open("nested.json", 'w') as f:
 	# file opening braces
 	f.write('{\n\t"entries" : [')
 
-	firstentry = TRUE
+	firstEntry = TRUE
 	for row in rows:
 		# inserting a comma if this is not the first entry
 		try:
-			if firstentry == FALSE:
+			if firstEntry == FALSE:
 				f.write(',\n')
 			else:
 				f.write('\n')
@@ -40,32 +40,59 @@ with open("nested.json", 'w') as f:
 			# entry opening braces
 			f.write('\t\t{')
 
-			firstline = TRUE
+			firstLine = TRUE
 			for i in range(len(fields)):
 				# ensuring the values are not an empty column
 				if not fields[i] == "":
 
 					# inserting a comma if this is not the first entry
 					try:
-						if firstline == FALSE:
+						if firstLine == FALSE:
 							f.write(',\n')
 						else:
 							f.write('\n')
 
 						# writing the fields and values
 						f.write('\t\t\t"')
-						f.write(fields[i])
-						f.write('" : "')
-						f.write(row[i])
-						f.write('"')
+						if "/" in fields[i]:
+							parsedField = fields[i].split("/")
+							print(parsedField)
+							f.write(parsedField[0])
+							f.write('" : [')
 
-						firstline = FALSE
+							firstSubentry = TRUE
+							# inserting a comma if this is not the first subentry
+							try:
+								if firstSubentry == FALSE:
+									f.write(',\n')
+								else:
+									f.write('\n')
+							except:
+								pass
+
+							f.write('\t\t\t\t{\n')
+							f.write('\t\t\t\t\t"')
+							f.write(parsedField[1])
+							f.write('" : "')
+							f.write(row[i])
+							f.write('"\n')
+							f.write('\t\t\t\t}\n')
+							f.write('\t\t\t]')
+
+
+						else:
+							f.write(fields[i])
+							f.write('" : "')
+							f.write(row[i])
+							f.write('"')
+
+						firstLine = FALSE
 					except:
 						pass
 
 			# entry closing braces
 			f.write('\n\t\t}')
-			firstentry = FALSE
+			firstEntry = FALSE
 		except:
 			pass
 
