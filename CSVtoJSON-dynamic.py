@@ -1,12 +1,53 @@
 # This is a file converter program that reads a CSV file and creates a JSON file with sublibraries rather than concatenated attribute names
 import csv
 from pickle import FALSE, TRUE
+from tkinter import FIRST
 
 filename = 'sample.csv'
 
 # initializing the titles and rows list
 fields = []
 rows = []
+
+def recursiveDict(field, tabCount, row):
+
+	# TO DO:  Implement check of prior dictionary titles
+	for z in range(len(field)):
+		if z == 0:
+			for a in range(tabCount):
+				f.write('\t')
+			f.write('"')
+			f.write(field[z])
+			f.write('" : [\n')
+			tabCount = tabCount + 1
+			for a in range(tabCount):
+				f.write('\t')
+			f.write('{\n')
+		else:
+			for a in range(tabCount + 1):
+				f.write('\t')
+			f.write('"')
+			f.write(field[z])
+			f.write('" : ')
+			if z == (len(field) - 1):
+				f.write('"')
+				f.write(row[z])
+				f.write('"')
+			else:
+				pass
+
+		if z == (len(field) - 1):
+			f.write('\n')
+			for a in range(tabCount):
+				f.write('\t')
+			f.write('}\n')
+			tabCount = tabCount - 1
+			for a in range(tabCount):
+				f.write('\t')
+			f.write(']')
+
+
+
 
 print('Reading CSV file . . . ')
 # reading csv file
@@ -25,9 +66,11 @@ print('CSV file successfully read!\n')
 print('Writing JSON file . . . ')
 with open("nested.json", 'w') as f: 
 
-	# file opening braces
+# ================================================================================
+# File dict opening braces
+# ================================================================================
 	f.write('{\n\t"entries" : [')
-
+	# first loop iteration variable
 	firstEntry = TRUE
 	for row in rows:
 		# inserting a comma if this is not the first entry
@@ -36,15 +79,16 @@ with open("nested.json", 'w') as f:
 				f.write(',\n')
 			else:
 				f.write('\n')
-			
-			# entry opening braces
-			f.write('\t\t{')
 
+# ================================================================================
+# Entry Opening braces
+# ================================================================================
+			f.write('\t\t{')
+			# first loop iteration variable
 			firstLine = TRUE
 			for i in range(len(fields)):
 				# ensuring the values are not an empty column
 				if not fields[i] == "":
-
 					# inserting a comma if this is not the first entry
 					try:
 						if firstLine == FALSE:
@@ -52,35 +96,21 @@ with open("nested.json", 'w') as f:
 						else:
 							f.write('\n')
 
-						# writing the fields and values
-						f.write('\t\t\t"')
+# ================================================================================
+# Generating Nested Dictionaries within an entry
+# ================================================================================
 						if "/" in fields[i]:
 							parsedField = fields[i].split("/")
 							print(parsedField)
-							f.write(parsedField[0])
-							f.write('" : [')
-
+							# calling recursive function to print dictionary
+							recursiveDict(parsedField, 3, row)
 							firstSubentry = TRUE
-							# inserting a comma if this is not the first subentry
-							try:
-								if firstSubentry == FALSE:
-									f.write(',\n')
-								else:
-									f.write('\n')
-							except:
-								pass
 
-							f.write('\t\t\t\t{\n')
-							f.write('\t\t\t\t\t"')
-							f.write(parsedField[1])
-							f.write('" : "')
-							f.write(row[i])
-							f.write('"\n')
-							f.write('\t\t\t\t}\n')
-							f.write('\t\t\t]')
-
-
+# ================================================================================
+# Generating Nominal Key/Value attributes within an entry
+# ================================================================================
 						else:
+							f.write('\t\t\t"')
 							f.write(fields[i])
 							f.write('" : "')
 							f.write(row[i])
@@ -90,13 +120,17 @@ with open("nested.json", 'w') as f:
 					except:
 						pass
 
-			# entry closing braces
+# ================================================================================
+# Entry closing braces
+# ================================================================================
 			f.write('\n\t\t}')
 			firstEntry = FALSE
 		except:
 			pass
 
-	# file closing braces
+# ================================================================================
+# File dict closing braces
+# ================================================================================
 	f.write('\n\t]\n}')
 
 print('JSON file successfully written!')

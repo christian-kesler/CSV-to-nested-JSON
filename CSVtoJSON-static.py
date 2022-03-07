@@ -23,7 +23,7 @@ with open(filename, 'r') as csvfile:
 print('CSV file successfully read!\n')
 
 print('Writing JSON file . . . ')
-with open("nested.json", 'w') as f: 
+with open("static.json", 'w') as f: 
 
 	# file opening braces
 	f.write('{\n\t"entries" : [')
